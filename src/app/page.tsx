@@ -46,7 +46,7 @@ export default function Home() {
         city?.includes?.(searchTerm) ||
         degree?.includes?.(searchTerm) ||
         specialties?.includes?.(searchTerm) ||
-        yearsOfExperience?.includes?.(searchTerm)
+        yearsOfExperience?.toString()?.includes?.(searchTerm)
       );
     });
 
