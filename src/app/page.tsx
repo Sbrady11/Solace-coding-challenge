@@ -1,14 +1,25 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+
+const AdvocateHeaderStructure = {
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  city: 'City',
+  degree: 'Degree',
+  specialties: 'Specialties',
+  yearsOfExperience: 'Years of Experience',
+  phoneNumber: 'Phone Number',
+}
+
 type Advocate = {
   firstName: string;
   lastName: string;
   city: string;
   degree: string;
   specialties: string[];
-  yearsOfExperience: string;
-  phoneNumber: string;
+  yearsOfExperience: number;
+  phoneNumber: number;
 }
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -64,13 +75,9 @@ export default function Home() {
       <table>
         <thead>
           <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
+          {Object.values(AdvocateHeaderStructure).map((header, index) => (
+            <th key={index}>{header}</th>
+          ))}
           </tr>
         </thead>
         <tbody>
