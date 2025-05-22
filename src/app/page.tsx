@@ -1,8 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
-import { useAdvocatesQuery } from "./use-advocates-query";
-import { useDebounce } from "./use-debounce";
+import { useAdvocateSearch } from "./use-advocate-search";
 
 const advocateHeaderStructure = {
   firstName: 'First Name',
@@ -24,20 +22,7 @@ type Advocate = {
   phoneNumber: number;
 }
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const {advocates} = useAdvocatesQuery(debouncedSearchTerm);
-
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
-  };
-
-  const resetSearch = () => {
-    setSearchTerm('');
-  };
-
+const {searchTerm, onChange, resetSearch, advocates} = useAdvocateSearch();
   return (
     <main style={{ margin: "24px" }}>
       <h1>Solace Advocates</h1>
