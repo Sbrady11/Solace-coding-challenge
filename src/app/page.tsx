@@ -1,35 +1,18 @@
 "use client";
 
+import { Advocate } from "./advocate";
 import { useAdvocateSearch } from "./use-advocate-search";
+import { Advocate as TAdvocate } from "./types";
+import solace from '../assets/solace.svg';
+import Image from "next/image";
 
-const advocateHeaderStructure = {
-  firstName: 'First Name',
-  lastName: 'Last Name',
-  city: 'City',
-  degree: 'Degree',
-  specialties: 'Specialties',
-  yearsOfExperience: 'Years of Experience',
-  phoneNumber: 'Phone Number',
-}
-
-type Advocate = {
-  firstName: string;
-  lastName: string;
-  city: string;
-  degree: string;
-  specialties: string[];
-  yearsOfExperience: number;
-  phoneNumber: number;
-}
 export default function Home() {
 const {searchTerm, onChange, resetSearch, advocates} = useAdvocateSearch();
   return (
     <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
+      <Image src={solace} alt="Solace" height={200} width={200} />
       <div>
-        <p>Search</p>
+        <h1>Advocate Search</h1>
         <p>
           Searching for: {searchTerm}
         </p>
@@ -38,34 +21,11 @@ const {searchTerm, onChange, resetSearch, advocates} = useAdvocateSearch();
       </div>
       <br />
       <br />
-      <table>
-        <thead>
-          <tr>
-          {Object.values(advocateHeaderStructure).map((header, index) => (
-            <th key={index}>{header}</th>
-          ))}
-          </tr>
-        </thead>
-        <tbody>
-          {advocates && advocates.length && advocates.map((advocate: Advocate, index: number) => {
-            return (
-              <tr key={index}>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s, specialtiesIndex) => (
-                    <div key={specialtiesIndex}>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="advocates">
+          {advocates && advocates.length && advocates.map((advocate: TAdvocate, index: number) => 
+            <Advocate key={index} advocateInfo={advocate}/>)
+          }
+      </div>
     </main>
   );
 }
