@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 const setup = () => {
+  console.log("testing");
   if (!process.env.DATABASE_URL) {
     console.error("DATABASE_URL is not set");
     return {
