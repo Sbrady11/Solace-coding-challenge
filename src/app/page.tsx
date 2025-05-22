@@ -1,9 +1,10 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useAdvocatesQuery } from "./use-advocates-query";
+import { useDebounce } from "./use-debounce";
 
-const AdvocateHeaderStructure = {
+const advocateHeaderStructure = {
   firstName: 'First Name',
   lastName: 'Last Name',
   city: 'City',
@@ -23,31 +24,18 @@ type Advocate = {
   phoneNumber: number;
 }
 export default function Home() {
-  const {advocates} = useAdvocatesQuery()
   const [searchTerm, setSearchTerm] = useState('')
-  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>(advocates);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const {advocates} = useAdvocatesQuery(debouncedSearchTerm);
 
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
     setSearchTerm(searchTerm);
-    const filteredAdvocates = advocates.filter((advocate: Advocate) => {
-      const {firstName, lastName, city, degree, specialties, yearsOfExperience} = advocate;
-      return (
-        firstName?.includes?.(searchTerm) ||
-        lastName?.includes?.(searchTerm) ||
-        city?.includes?.(searchTerm) ||
-        degree?.includes?.(searchTerm) ||
-        specialties?.includes?.(searchTerm) ||
-        yearsOfExperience?.toString()?.includes?.(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
   };
 
   const resetSearch = () => {
-    setFilteredAdvocates(advocates);
+    setSearchTerm('');
   };
 
   return (
@@ -68,13 +56,13 @@ export default function Home() {
       <table>
         <thead>
           <tr>
-          {Object.values(AdvocateHeaderStructure).map((header, index) => (
+          {Object.values(advocateHeaderStructure).map((header, index) => (
             <th key={index}>{header}</th>
           ))}
           </tr>
         </thead>
         <tbody>
-          {filteredAdvocates?.map((advocate, index) => {
+          {advocates && advocates.length && advocates.map((advocate: Advocate, index: number) => {
             return (
               <tr key={index}>
                 <td>{advocate.firstName}</td>
