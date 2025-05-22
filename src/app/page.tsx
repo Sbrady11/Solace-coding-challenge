@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { useAdvocatesQuery } from "./use-advocates-query";
 
 const AdvocateHeaderStructure = {
   firstName: 'First Name',
@@ -22,18 +23,10 @@ type Advocate = {
   phoneNumber: number;
 }
 export default function Home() {
+  const {advocates} = useAdvocatesQuery()
   const [searchTerm, setSearchTerm] = useState('')
-  const [advocates, setAdvocates] = useState<Advocate[]>([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
+  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>(advocates);
 
-  useEffect(() => {
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
-    });
-  }, []);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
