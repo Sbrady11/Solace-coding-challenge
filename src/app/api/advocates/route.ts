@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const data = await db
     .select()
     .from(advocates)
-    // Annoying because in the docs they dont have an issue here: https://orm.drizzle.team/docs/guides/conditional-filters-in-query
+    // Annoying because in the docs they dont have an issue : https://orm.drizzle.team/docs/guides/conditional-filters-in-query
     .where(
       or(
         ilike(advocates.firstName, `%${filter}%`),
